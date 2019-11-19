@@ -9,5 +9,8 @@ Router.get('/', (req, res)=> {
 });
 Router.get('/admin', user.admin);
 Router.post('/signup', user.create);
+Router.post('/login', user.loginAttempt);
+Router.get('/logout', user.logout);
+Router.get('/profile', user.profilePage)
 
 module.exports = Router

@@ -5,6 +5,7 @@ const Rupiah = require('./helpers/convertRupiah')
 const session = require('express-session');
 const { user } = require('./controllers')
 
+
 const { User, Item, Category } = require('./routers')
 
 app.set('view engine', 'ejs');
@@ -18,8 +19,13 @@ app.use(session({
   cookie: { secure: false }
 }))
 
+app.get('/', (req, res)=>{
+    let userSession = req.session.user
+    res.redirect('/home')
+})
 app.use('/home', (req, res)=> {
-    res.render('hompage/home')
+    let userSession = req.session.user
+    res.render('hompage/home', {user: userSession})
 })
 app.use('/login', user.loginPage);
 app.use('/signup', user.register);
