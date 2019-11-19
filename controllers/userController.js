@@ -1,6 +1,6 @@
 'use strict'
 const { User } = require('../models')
-const bcrypt = require('../helpers/hashPassword')
+const bcrypt = require('../helpers/bcrypt')
 
 class userController {
     static register(req, res) {
@@ -20,7 +20,10 @@ class userController {
         let user = req.session.user
         res.render('./user/admin', {error: null, user})
     }
-    
+    static loginPage(req, res) {
+        res.render('./user/login', {err:null})
+    }
 }
+
 
 module.exports = userController

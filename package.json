@@ -4,6 +4,7 @@
   "description": "Hacktiv8 Phase-1 Batch-37 pair project",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",
     "ejs": "^2.7.3",
     "express": "^4.17.1",
