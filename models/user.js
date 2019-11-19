@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model;
-  const bcrypt = require('../helpers/hashPassword')
+  const bcrypt = require('../helpers/bcrypt')
   class User extends Model{
     fullname() {
       return `${this.first_name} ${this.last_name}`
