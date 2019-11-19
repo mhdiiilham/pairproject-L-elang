@@ -4,7 +4,25 @@ module.exports = (sequelize, DataTypes) => {
   class Category extends Model {};
   Category.init(
     {
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          isNull(value){
+            if(!value){
+              throw new Error ('Subject cannot empty');
+            }
+          },
+          customValidator(value) {
+            return Category.findOne({where: {name: value}})
+              .then(category => {
+                if(category && category.id !== this.id){
+                  throw new Error("Subject is available");
+                }
+              })
+          }
+        }
+
+      }, 
       code: DataTypes.INTEGER
     }, { sequelize }
   );
