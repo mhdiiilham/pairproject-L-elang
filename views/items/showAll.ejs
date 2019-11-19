@@ -9,42 +9,24 @@
 </head>
 <body>
     
-  
   <%- include('../partials/adminNavbar', {page: 'item'}) %>
-
-  <div class="jumbotron">
-      <h1 class="display-4">Hello, world!</h1>
-      <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-      <hr class="my-4">
-      <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </div>
+  <%- include('../partials/adminHeader', {page: 'item'}) %>
   
   <div class="container mt-5">
     <table class="table table-striped">
-        <thead>
+      <%- include('../partials/adminTableHead', {head: ['#', 'Name', 'Category', 'Price', 'Image']}) %>
+      <tbody>
+        <% for(let i=0; i < data.length; i++ ) { %> 
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Categoy</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
+            <th scope="row"><%= i+1 %></th>
+            <td><%= data[i].name %></td>
+            <td><%= data[i].CategoryId %></td>
+            <td><%= data[i].price %></td>
+            <td><%= data[i].image %></td>
           </tr>
-        </thead>
-        <tbody>
-          <% for(let i=0; i < data.length; i++ ) { %> 
-            <tr>
-              <th scope="row"><%= i+1 %></th>
-              <td><%= data[i].name %></td>
-              <td><%= data[i].CategoryId %></td>
-              <td><%= data[i].price %></td>
-              <td><%= data[i].image %></td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
+        <% } %>
+      </tbody>
+    </table>
   </div>
-
-
 </body>
 </html>
