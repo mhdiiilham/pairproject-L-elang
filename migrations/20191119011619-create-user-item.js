@@ -17,6 +17,9 @@ module.exports = {
       bid: {
         type: Sequelize.INTEGER
       },
+      status: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
