@@ -7,8 +7,17 @@ module.exports = (sequelize, DataTypes) => {
     CategoryId: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     code: DataTypes.STRING,
-    image: DataTypes.STRING
-  }, { sequelize });
+    image: DataTypes.STRING,
+    status: DataTypes.STRING
+  }, {
+    hooks: {
+      beforeCreate: (item) => {
+        item.code = `${item.name.toUpperCase()}`
+      }
+    },
+    sequelize
+  });
+  
   Item.associate = function(models) {
     // associations can be defined here
     Item.belongsTo(models.Category)
