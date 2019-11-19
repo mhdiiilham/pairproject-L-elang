@@ -8,6 +8,28 @@
     <title>L'Elang</title>
 </head>
 <body>
-    <%- include('../partials/userNavbar', { page: register })
+    <%- include('../partials/userNavbar', { page: 'signup' })%>
+    <div class="container p-5">
+        <h1 class="text-center pb-4">Register Account</h1>
+        <form method="POST" action="/user/signup">
+            First Name:<br>
+            <input type="text" name="first_name" class="form-control" >
+            <br>
+            last Name:<br>
+            <input type="text" name="last_name" class="form-control" >
+            <br>
+            Email:<br>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="addon-wrapping">@</span>
+                </div>
+                <input type="text" class="form-control" placeholder="email" aria-label="Username" aria-describedby="addon-wrapping" name="email">
+            </div>
+            Password:<br>
+            <input type="password" name="password" class="form-control" >
+            <br><br>
+            <button type="submit" class="btn btn-primary">Register User</button>
+        </form>
+    </div>
 </body>
 </html>
