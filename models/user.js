@@ -1,7 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model;
-  class User extends Model{};
+  const bcrypt = require('../helpers/hashPassword')
+  class User extends Model{
+    fullname() {
+      return `${this.first_name} ${this.last_name}`
+    }
+  };
   User.init({
     first_name: {
       type: DataTypes.STRING,
@@ -52,7 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     role: DataTypes.STRING
   }, { hooks: {
-
+    beforeCreate: function(user, options) {
+      user.setDataValue('password', bcrypt.encrypt(user.password))
+    }
   }, sequelize });
   User.associate = function(models) {
     // associations can be defined here
