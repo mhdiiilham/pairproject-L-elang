@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <%- include('../partials/bootstrap') %>
+  <title>L'Elang</title>
+</head>
+<body>
+    <%- include('../partials/adminNavbar', {page: 'item'}) %>
+    <div class="container mt-4">
+        <h1 class="display-4">Add Item</h1>
+        <hr class="my-4">
+      </div>
+    
+      <div class="container mt-4">
+        <form class="text-center border border-light p-5" action="" method="POST">
+            <div class="form-row mb-4">
+              <div class="col">
+                <input type="text" id="defaultRegisterFormName" class="form-control" placeholder="Name Item" name="name">
+              </div>
+              <div class="col">
+                <input type="text" id="defaultRegisterFormCategoryId" class="form-control" placeholder="Category Item" name="CategoryId">
+              </div>
+            </div>
+            <div class="form-row mb-4">
+              <div class="col">
+                <input type="number" id="defaultRegisterPrice" class="form-control" placeholder="Insert Price" name="price">
+              </div>
+              <div class="col">
+                <input type="text" id="defaultRegisterImage" class="form-control" placeholder="Insert Image" name="image">
+              </div>
+            </div>
+            <button class="btn btn-secondary my-4 btn-block" type="submit">Create</button>
+        </form>
+      </div>
+  
+</body>
+</html>

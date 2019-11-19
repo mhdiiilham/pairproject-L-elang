@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <%- include('../partials/bootstrap') %>
-  <title>Document</title>
+  <title>L'Elang</title>
 </head>
 <body>
     
@@ -21,7 +21,7 @@
             <th scope="row"><%= i+1 %></th>
             <td><%= data[i].name %></td>
             <td><%= data[i].CategoryId %></td>
-            <td><%= data[i].price %></td>
+            <td><%= rupiah(data[i].price) %></td>
             <td><%= data[i].image %></td>
           </tr>
         <% } %>
