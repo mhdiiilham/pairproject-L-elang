@@ -15,6 +15,10 @@ class itemController {
   }
 
   static getItemForm(req, res){
+    res.render('items/addItem')
+  }
+
+  static createItem(req, res){
     Item.create({
       name: req.body.name,
       CategoryId: req.body.CategoryId,
@@ -23,15 +27,13 @@ class itemController {
       image: req.body.image
     })
     .then(success => {
-      res.redirec('/item')
+      res.redirect('/item')
     })
     .catch(err => {
+      console.log(err)
       res.send({err})
     })
-  }
-
-  static createItem(req, res){
-    res.send(req.body)
+    
   }
 }
 
