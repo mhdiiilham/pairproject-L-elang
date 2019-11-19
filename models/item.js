@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     CategoryId: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
-    code: DataTypes.STRING
+    code: DataTypes.STRING,
+    image: DataTypes.STRING
   }, { sequelize });
   Item.associate = function(models) {
     // associations can be defined here
