@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 3000;
+const Rupiah = require('./helpers/convertRupiah')
 
 const { User, Item, Category } = require('./routers')
 
@@ -13,6 +14,7 @@ app.use('/home', (req, res)=> {
 app.use('/user', User) // route User
 app.use('/item', Item) // route Item - Admin
 app.use('/category', Category) // route Category - Admin
+app.locals.rupiah = Rupiah
 
 
 app.listen(PORT, () => { console.log(`Listening on port ${PORT}!`)});
