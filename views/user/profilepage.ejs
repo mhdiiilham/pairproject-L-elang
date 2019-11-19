@@ -40,6 +40,23 @@
                 </div>
                 <div class="modal-body">
                     <h1>BID HISTORY:</h1>
+                    <ul>
+                        <!-- Besok tuker jadi card tiga tiga -->
+                        <%for(let i = 0; i < data.Items.length; i++){%>
+                            <li>
+                                <div class="card" style="width: 15rem;">
+                                    <img src="<%=data.Items[i].image%>" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h3><%=data.Items[i].name%></h3>
+                                        <p class="card-text">
+                                            Price: <%=rupiah(data.Items[i].price)%> <br>
+                                            bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                        <%}%>
+                    </ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

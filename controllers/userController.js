@@ -61,7 +61,8 @@ class userController {
                     { include: { model: Item } }
                 )
                 .then(user=>{
-                    res.send(user);
+                    // res.send(user.Items)
+                    res.render('./user/profilepage', {user: userSession, data: user})
                 })
                 .catch(err=>{
                     res.send(err)
