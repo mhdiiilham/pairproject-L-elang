@@ -69,6 +69,7 @@ class itemController {
       res.send({err})
     }) 
   }
+  static showForUser(req, res) {}
 }
 
 module.exports = itemController

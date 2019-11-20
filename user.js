@@ -1,9 +1,9 @@
 const { Category, UserItem, Item } = require('./models')
 
 UserItem.create({
-    UserId: 2,
+    UserId: 1,
     ItemId: 1,
-    bid: 60000000
+    bid: 600000000
 })
     .then(()=> {
         console.log('success')

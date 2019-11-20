@@ -4,11 +4,11 @@ const bcrypt = require('../helpers/bcrypt')
 
 class userController {
     static register(req, res) {
-        let user = null
+        let user = req.session.user
         res.render('./user/register',{ error: null, user })
     }
     static create(req, res) {
-        let user = null
+        let user = req.session.user
         User.create(req.body)
             .then((user)=> {
                 res.redirect('/home')
@@ -36,14 +36,19 @@ class userController {
                     }
                     let hour = 3600000;
                     req.session.cookie.expires = new Date(Date.now() + hour);
-                    res.redirect('/user/profile')
+                    if(req.session.user.role !== 'admin') {
+                        res.redirect('/user/profile')
+                    }
+                    else {
+                        res.send('tampilan Admin')
+                    }
                 }
                 else {
                     res.render('./user/login', {err: "email/password salah", user: null})
                 };
             })
             .catch(err=> {
-                res.render('./user/login', {err})
+                res.render('./user/login', {err, user: null})
             });
     }
     static logout(req, res) {
@@ -60,9 +65,11 @@ class userController {
                 User.findByPk(userSession.id,
                     { include: { model: Item } }
                 )
-                .then(user=>{
-                    // res.send(user.Items)
-                    res.render('./user/profilepage', {user: userSession, data: user})
+                .then(userData=>{
+                    for(let i =0 ; i < userData.Items.length; i++) {
+                        userData.Items[i].image = new Buffer(userData.Items[i].image).toString('base64')
+                    }
+                    res.render('./user/profilepage', {user: userSession, data: userData})
                 })
                 .catch(err=>{
                     res.send(err)
@@ -70,6 +77,34 @@ class userController {
             }
         }
     }
+    static isAdmin(req, res, next) {
+        let userSession = req.session.user
+        if(!userSession) {
+            res.redirect('/');
+        }
+        else {
+            res.render('./user/admin', {error: null, page: 'secret', user: req.session.user})
+        }
+    }
+    static isAdminTrue(req, res) {
+        let userSession = req.session.user
+        let { admin } = req.body
+        if(admin !== 'B4caDokum3nT4s!') {
+            res.redirect('/')
+        }
+        else {
+            User.update(
+                { role: 'admin' },
+                { where: { id: userSession.id  } }
+            )
+            .then(()=> {
+                res.send('udah jadi admin');
+            })
+            .catch(err=> {
+                res.send(err);
+            });
+        };
+    };
 }
 
 

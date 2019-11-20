@@ -11,6 +11,8 @@ Router.get('/admin', user.admin);
 Router.post('/signup', user.create);
 Router.post('/login', user.loginAttempt);
 Router.get('/logout', user.logout);
-Router.get('/profile', user.profilePage)
+Router.get('/profile', user.profilePage);
+Router.get('/isAdmin', user.isAdmin);
+Router.post('/Admin', user.isAdminTrue);
 
 module.exports = Router
