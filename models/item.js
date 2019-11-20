@@ -4,13 +4,6 @@ module.exports = (sequelize, DataTypes) => {
   const models = sequelize.models
   class Item extends Model{};
   Item.init({
-<<<<<<< HEAD
-    name: DataTypes.STRING,
-    CategoryId: DataTypes.INTEGER,
-    price: DataTypes.INTEGER,
-    code: DataTypes.STRING,
-    image: DataTypes.BLOB,
-=======
     name: {
       type: DataTypes.STRING,
       validate: {
@@ -54,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
->>>>>>> 10ab865facdea2d9c132024cc4c2be75c687e43c
     status: DataTypes.STRING
   }, {
     hooks: {
