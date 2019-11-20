@@ -11,8 +11,24 @@ Router.get('/admin', user.admin);
 Router.post('/signup', user.create);
 Router.post('/login', user.loginAttempt);
 Router.get('/logout', user.logout);
-Router.get('/profile', user.profilePage);
-Router.get('/isAdmin', user.isAdmin);
+Router.get('/profile', (req, res, next)=>{
+    let Session = req.session.user
+    if(!Session) {
+        res.redirect('/login')
+    }
+    else {
+        next()
+    }
+},user.profilePage);
+Router.get('/isAdmin', (req, res, next)=>{
+    let Session = req.session.user
+    if(!Session) {
+        res.redirect('/login')
+    }
+    else {
+        next()
+    }
+}, user.isAdmin);
 Router.post('/Admin', user.isAdminTrue);
 
 module.exports = Router

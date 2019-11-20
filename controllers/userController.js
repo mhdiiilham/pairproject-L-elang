@@ -1,11 +1,14 @@
 'use strict'
-const { User, Item } = require('../models')
+const { User, Item, Category } = require('../models')
 const bcrypt = require('../helpers/bcrypt')
 
 class userController {
     static register(req, res) {
         let user = req.session.user
-        res.render('./user/register',{ error: null, user })
+        Category.findAll()
+        .then(categories=> {
+            res.render('./user/register',{ error: null, user, list: categories })
+        })
     }
     static create(req, res) {
         let user = req.session.user
@@ -14,15 +17,27 @@ class userController {
                 res.redirect('/home')
             })
             .catch(err=> {
-                res.render('./user/register', { error: err.errors[0].message, user })
+                Category.findAll()
+                .then(categories=> {
+                    res.render('./user/register', { error: err.errors[0].message, user, list: categories })
+                })
+                .catch(err=> {
+                    res.send(err)
+                })
             });
     }
     static admin(req, res) {
         let user = req.session.user
-        res.render('./user/admin', {error: null, user})
+        Category.findAll()
+        .then(categories=> {
+            res.render('./user/admin', {error: null, user, list: categories})
+        })
     }
     static loginPage(req, res) {
-        res.render('./user/login', {err:null, user: null})
+        Category.findAll()
+        .then(categories=>{
+            res.render('./user/login', {err:null, user: null, list: categories})
+        })
     }
     static loginAttempt(req, res) {
         User.findOne({where: {email: req.body.email}})
@@ -44,7 +59,10 @@ class userController {
                     }
                 }
                 else {
-                    res.render('./user/login', {err: "email/password salah", user: null})
+                    Category.findAll()
+                    .then(categories=>{
+                        res.render('./user/login', {err: "email/password salah", user: null, list: categories})
+                    })
                 };
             })
             .catch(err=> {
@@ -55,41 +73,44 @@ class userController {
         req.session.destroy();
         res.redirect('/');
     }
-    static profilePage(req, res, next) {
+    static profilePage(req, res) {
         let userSession = req.session.user
-        if(!userSession) {
-            res.redirect('/')
+        if(userSession.role !== 'admin') {
+            User.findByPk(userSession.id,
+                { include: { model: Item } }
+            )
+            .then(userData=>{
+                for(let i =0 ; i < userData.Items.length; i++) {
+                    userData.Items[i].image = new Buffer(userData.Items[i].image).toString('base64')
+                }
+                Category.findAll()
+                .then(categories=>{
+                    res.render('./user/profilepage', {user: userSession, data: userData, list: categories})
+                })
+            })
+            .catch(err=>{
+                res.send(err)
+            })
         }
         else {
-            if(userSession.role !== 'admin') {
-                User.findByPk(userSession.id,
-                    { include: { model: Item } }
-                )
-                .then(userData=>{
-                    for(let i =0 ; i < userData.Items.length; i++) {
-                        userData.Items[i].image = new Buffer(userData.Items[i].image).toString('base64')
-                    }
-                    res.render('./user/profilepage', {user: userSession, data: userData})
-                })
-                .catch(err=>{
-                    res.send(err)
-                })
-            }
+            res.send('profileAdmin')
         }
     }
-    static isAdmin(req, res, next) {
+    static isAdmin(req, res) {
         let userSession = req.session.user
-        if(!userSession) {
-            res.redirect('/');
-        }
-        else {
-            res.render('./user/admin', {error: null, page: 'secret', user: req.session.user})
-        }
+        Category.findAll()
+            .then(categories=> {
+                res.render('./user/admin', {error: null, page: 'secret', user: req.session.user, list: categories})
+            })
+            .catch(eer=>{
+                res.send(err)
+            })
     }
     static isAdminTrue(req, res) {
         let userSession = req.session.user
         let { admin } = req.body
         if(admin !== 'B4caDokum3nT4s!') {
+            // redirect ke home
             res.redirect('/')
         }
         else {
@@ -98,6 +119,7 @@ class userController {
                 { where: { id: userSession.id  } }
             )
             .then(()=> {
+                // redirect ke halaman profile admin
                 res.send('udah jadi admin');
             })
             .catch(err=> {

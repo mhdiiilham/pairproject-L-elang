@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <%- include('../partials/bootstrap') %>
-    <title>Profile: <%=user.name%></title>
+    <title>L'Elang: <%=user.name%></title>
 </head>
 <body>
     <%- include('../partials/userNavbar', {page: 'profile'}) %>
@@ -33,30 +33,30 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">History:</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h1>BID HISTORY:</h1>
-                    <ul>
-                        <!-- Besok tuker jadi card tiga tiga -->
-                        <%for(let i = 0; i < data.Items.length; i++){%>
-                            <li>
-                                <div class="card" style="width: 15rem;">
-                                    <img src="data:image/jpeg;base64, <%-data.Items[i].image%>" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h3><%=data.Items[i].name%></h3>
-                                        <p class="card-text">
-                                            Price: <%=rupiah(data.Items[i].price)%> <br>
-                                            bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
-                                        </p>
+                        <div class="container">
+                            <div class="row">
+                                    <%for(let i = 0; i < data.Items.length; i++){%>
+                                    <div class="col-sm">
+                                        <div class="card" style="width: 18rem;">
+                                            <img src="data:image/jpeg;base64, <%-data.Items[i].image%>" class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                                <h3><%=data.Items[i].name%></h3>
+                                                <p class="card-text">
+                                                    Price: <%=rupiah(data.Items[i].price)%> <br>
+                                                    bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <%}%>
                                 </div>
-                            </li>
-                        <%}%>
-                    </ul>
+                            </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

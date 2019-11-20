@@ -4,6 +4,7 @@ const PORT = 3000;
 const Rupiah = require('./helpers/convertRupiah')
 const session = require('express-session');
 const { user } = require('./controllers')
+const ModelCategory = require('./models').Category
 
 
 const { User, Item, Category } = require('./routers')
@@ -24,9 +25,26 @@ app.get('/', (req, res)=>{
     res.redirect('/home')
 })
 app.use('/home', (req, res)=> {
-    let userSession = req.session.user
-    res.render('hompage/home', {user: userSession})
+    ModelCategory.findAll()
+    .then(categories=> {
+      let userSession = req.session.user
+      res.render('hompage/home', {user: userSession, categories})
+    })
+    .catch(err=>{
+      res.send(err)
+    })
 })
+app.use('/list', (req, res, next)=>{
+  let userSession = req.session.user
+  if(!userSession){
+    res.redirect('/login')
+  }
+  else {
+    res.send('ada user')
+  }
+})
+
+
 app.use('/login', user.loginPage);
 app.use('/signup', user.register);
 app.use('/user', User) // route User
