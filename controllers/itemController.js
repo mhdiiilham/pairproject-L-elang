@@ -27,6 +27,8 @@ class itemController {
           items[i].image = new Buffer(items[i].image).toString('base64')
         }
 
+        // res.send(items)
+
         dataItems = items
         return Category.findAll()
       })
@@ -55,19 +57,24 @@ class itemController {
   }
 
   static createItem(req, res){
-    Item.create({
-      name: req.body.name,
-      CategoryId: req.body.CategoryId,
-      price: req.body.price,
-      image: req.file.buffer,
-      status: 'OPEN'
-    })
-    .then(success => {
-      res.redirect('/item')
-    })
-    .catch(err => {
-      res.send({err})
-    }) 
+    if(req.file == undefined){
+      const err = {err: "Validation error: File cannot empty"}
+      res.send(err)
+    } else {
+      Item.create({
+        name: req.body.name,
+        CategoryId: req.body.CategoryId,
+        price: req.body.price,
+        image: req.file.buffer,
+        status: 'OPEN'
+      })
+      .then(success => {
+        res.redirect('/item')
+      })
+      .catch(err => {
+        res.send({err : err.message})
+      }) 
+    }
   }
 }
 

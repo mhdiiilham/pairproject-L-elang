@@ -9,21 +9,30 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isNull(value){
             if(!value){
-              throw new Error ('Subject cannot empty');
+              throw new Error ('Category cannot empty');
             }
           },
           customValidator(value) {
             return Category.findOne({where: {name: value}})
               .then(category => {
                 if(category && category.id !== this.id){
-                  throw new Error("Subject is available");
+                  throw new Error("Category is available");
                 }
               })
           }
         }
 
       }, 
-      code: DataTypes.STRING,
+      code: {
+        type: DataTypes.STRING,
+        validate: {
+          isNull(value){
+            if(!value){
+              throw new Error ('Code cannot empty');
+            }
+          }
+        }
+      }, 
     }, {
       hooks: {
         beforeCreate: (category) => {
