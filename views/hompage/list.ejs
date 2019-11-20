@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <%- include('../partials/bootstrap') %>
+  <title>Document</title>
+</head>
+<body>
+  <%- include('../partials/userNavbar', { page: 'list' }) %>
+  <div class="container mt-5">
+    <div class="card-columns">
+      <% for(let i=0; i < data.length; i++) { %>
+        <div class="card">
+          <img class="card-img-top" alt="Card image cap"src="data:image/jpeg;base64,<%- data[i].image %>" width="100px"/>
+          <div class="card-body">
+            <h3 class="card-title"> <%= data[i].name %></h3>
+            <div class="row mb-2">
+              <div class="col-sm-4">Code</div>
+              <div class="col-sm-8"><%= data[i].code %></div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-sm-4">Category</div>
+              <div class="col-sm-8"><%= data[i].Category.name %></div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-sm-4">Start</div>
+              <div class="col-sm-8"><strong><%= rupiah(data[i].price) %></strong></div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+
+
+      
+    </div>
+  </div>
+</body>
+</html>

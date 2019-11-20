@@ -7,7 +7,7 @@ const { user } = require('./controllers')
 const ModelCategory = require('./models').Category
 
 
-const { User, Item, Category } = require('./routers')
+const { User, Item, Category, Body } = require('./routers')
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -44,12 +44,12 @@ app.use('/list', (req, res, next)=>{
   }
 })
 
-
 app.use('/login', user.loginPage);
 app.use('/signup', user.register);
 app.use('/user', User) // route User
 app.use('/item', Item) // route Item - Admin
 app.use('/category', Category) // route Category - Admin
+app.use('/list', Body)  //route List
 app.locals.rupiah = Rupiah
 
 
