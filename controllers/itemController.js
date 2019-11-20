@@ -1,21 +1,57 @@
 'use strict'
-const { Item } = require('../models')
+const { Item, Category } = require('../models')
 
 class itemController {
   static findAll(req, res){
+    let obj = req.query
+    let dataItems
+    let category
+    let search = {}
+    for (let a in obj){
+      if(obj[a] !== '0'){
+        if(a == 'category'){
+          let insertId = obj[a].split(' ')
+          search['CategoryId'] = Number(insertId[0])
+        } else {
+          search[a] = obj[a].toUpperCase()
+        }
+      }
+    }
+
+    let where = {where: search}
+
     Item
-      .findAll()
+      .findAll(where)
       .then(items => {
-        // res.send(items)
-        res.render('items/showAll', { data: items })
+        for(let i = 0; i < items.length; i++){
+          items[i].image = new Buffer(items[i].image).toString('base64')
+        }
+
+        dataItems = items
+        return Category.findAll()
+      })
+      .then(categories => {
+        res.render('items/showAll', { data: dataItems, category: categories })
       })
       .catch(err => {
+        console.log(err.message)
         res.send({ err })
       })
   }
 
+  static searchFindOne(req, res){
+    res.redirect(`/item?category=${req.body.name}&status=${req.body.status}`)
+  }
+
   static getItemForm(req, res){
-    res.render('items/addItem')
+    Category
+      .findAll()
+      .then(categories => {
+        res.render('items/addItem', {data: categories})
+      })
+      .catch(err => {
+        res.send({err})
+      })
   }
 
   static createItem(req, res){
@@ -23,17 +59,15 @@ class itemController {
       name: req.body.name,
       CategoryId: req.body.CategoryId,
       price: req.body.price,
-      code: 'INI NANTI DI HOOKS',
-      image: req.body.image
+      image: req.file.buffer,
+      status: 'OPEN'
     })
     .then(success => {
       res.redirect('/item')
     })
     .catch(err => {
-      console.log(err)
       res.send({err})
-    })
-    
+    }) 
   }
 }
 

@@ -22,8 +22,7 @@ class categoryController {
   static createCategory(req, res){
     Category
       .create({
-        name: req.body.name,
-        code: 'INI NANTI DI HOOKS'
+        name: req.body.name
       })
       .then(success => {
         res.redirect('/category')

@@ -23,9 +23,18 @@ module.exports = (sequelize, DataTypes) => {
         }
 
       }, 
-      code: DataTypes.INTEGER
-    }, { sequelize }
-  );
+      code: DataTypes.STRING,
+    }, {
+      hooks: {
+        beforeCreate: (category) => {
+          let Upper = category.name.toUpperCase()
+          category.code = `LEL-2019-${Upper.slice(0,3)}`
+        }
+      },
+      sequelize
+    });
+
+
   Category.associate = function(models) {
     // associations can be defined here
     Category.hasMany(models.Item)
