@@ -1,6 +1,4 @@
-
-
-
+'use strict';
 module.exports = (num) => {
   let data = String(num).split("").reverse().join("");
   let result = ''
