@@ -1,5 +1,5 @@
 'use strict'
-const { User, Item, Category } = require('../models')
+const { User, Item, Category, UserItem } = require('../models')
 const bcrypt = require('../helpers/bcrypt')
 
 class userController {
@@ -93,6 +93,7 @@ class userController {
             })
         }
         else {
+            // res.send(req.session.user)
             res.send('profileAdmin')
         }
     }
@@ -120,7 +121,7 @@ class userController {
             )
             .then(()=> {
                 // redirect ke halaman profile admin
-                res.send('udah jadi admin');
+                res.send('/item');
             })
             .catch(err=> {
                 res.send(err);
@@ -144,7 +145,18 @@ class userController {
         });
     };
     static bidPOST(req, res) {
+        let dataCategory = null
         Category.findAll()
+        .then(categories=> {
+            dataCategory = categories
+            return UserItem.create(req.body)
+        })
+        .then(()=>{
+            res.redirect('/user/profile')
+        })
+        .catch(err=>{
+            res.send(err)
+        })
     }
 }
 

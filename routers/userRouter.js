@@ -30,7 +30,6 @@ Router.get('/isAdmin', (req, res, next)=>{
     }
 }, user.isAdmin);
 Router.post('/Admin', user.isAdminTrue);
-
 Router.get('/bid/:id', (req, res, next) => {
     let session = req.session.user
     if(!session){
