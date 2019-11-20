@@ -46,6 +46,8 @@ class userController {
                     req.session.user = {
                         id: user.id,
                         name: user.fullname(),
+                        first_name: user.first_name,
+                        last_name: user.last_name,
                         email: user.email,
                         role: user.role
                     }
@@ -55,18 +57,22 @@ class userController {
                         res.redirect('/user/profile')
                     }
                     else {
-                        res.send('tampilan Admin')
+                        res.redirect('/item')
                     }
                 }
                 else {
                     Category.findAll()
                     .then(categories=>{
-                        res.render('./user/login', {err: "email/password salah", user: null, list: categories})
+                        // res.send(categories)
+                        res.render('./user/login', {err: "email / password salah", user: null, list: categories})
                     })
                 };
             })
             .catch(err=> {
-                res.render('./user/login', {err, user: null})
+                Category.findAll()
+                .then(categories=>{
+                    res.render('./user/login', {err: "email / password salah", user: null, list: categories})
+                })
             });
     }
     static logout(req, res) {
@@ -157,6 +163,15 @@ class userController {
         .catch(err=>{
             res.send(err)
         })
+    }
+    static editUpdate(req, res) {
+        User.update(req.body, {where: { id: Number(req.body.id) }})
+            .then(()=>{
+                res.redirect('/user/profile');
+            })
+            .catch(err=>{
+                res.send(err)
+            })
     }
 }
 
