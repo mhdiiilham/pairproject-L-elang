@@ -34,16 +34,6 @@ app.use('/home', (req, res)=> {
       res.send(err)
     })
 })
-app.use('/list', (req, res, next)=>{
-  let userSession = req.session.user
-  if(!userSession){
-    res.redirect('/login')
-  }
-  else {
-    res.send('ada user')
-  }
-})
-
 app.use('/login', user.loginPage);
 app.use('/signup', user.register);
 app.use('/user', User) // route User
