@@ -31,12 +31,14 @@ Router.get('/isAdmin', (req, res, next)=>{
 }, user.isAdmin);
 Router.post('/Admin', user.isAdminTrue);
 
-// Router.get('/bid/:id', (req, res, next) => {
-//     if(!session.user){
-//         res.redirect('/login')
-//     } else {
-//         next()
-//     }
-// }, user.bidPage)
+Router.get('/bid/:id', (req, res, next) => {
+    let session = req.session.user
+    if(!session){
+        res.redirect('/login')
+    } else {
+        next()
+    }
+}, user.bidPage);
+Router.post('/bid/:id', user.bidPOST);
 
 module.exports = Router

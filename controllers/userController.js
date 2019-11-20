@@ -14,7 +14,7 @@ class userController {
         let user = req.session.user
         User.create(req.body)
             .then((user)=> {
-                res.redirect('/home')
+                res.redirect('/')
             })
             .catch(err=> {
                 Category.findAll()
@@ -142,7 +142,10 @@ class userController {
         .catch(err=>{
           res.send(err);
         });
-      }
+    };
+    static bidPOST(req, res) {
+        Category.findAll()
+    }
 }
 
 
