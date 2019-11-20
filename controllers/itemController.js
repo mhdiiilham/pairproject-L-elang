@@ -1,5 +1,5 @@
 'use strict'
-const { Item, Category } = require('../models')
+const { Item, Category, User } = require('../models')
 
 class itemController {
   static findAll(req, res){
@@ -76,7 +76,6 @@ class itemController {
       }) 
     }
   }
-  static showForUser(req, res) {}
 }
 
 module.exports = itemController

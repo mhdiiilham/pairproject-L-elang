@@ -9,9 +9,9 @@ const upload = Multer({
 
 const { item } = require('../controllers')
 
-Router.get('/', item.findAll)
-Router.post('/', item.searchFindOne)
-Router.get('/add', item.getItemForm)
+Router.get('/', item.findAll);
+Router.post('/', item.searchFindOne);
+Router.get('/add', item.getItemForm);
 Router.post('/add', upload.single('image'), item.createItem)
 
 module.exports = Router

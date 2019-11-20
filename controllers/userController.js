@@ -127,6 +127,22 @@ class userController {
             });
         };
     };
+    static bidPage(req, res) {
+        let userSession = req.session.user
+        let list = null
+        Category.findAll()
+        .then(categories=> {
+          list = categories
+          return Item.findByPk(req.params.id, {include: [User]})
+        })
+        .then(data=> {
+          data.image = new Buffer(data.image).toString('base64')
+          res.render('bidpage', { user: req.session.user, categories: list, data, userSession })
+        })
+        .catch(err=>{
+          res.send(err);
+        });
+      }
 }
 
 
