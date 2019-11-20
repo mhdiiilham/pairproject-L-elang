@@ -12,7 +12,7 @@
   <div class="container mt-5">
     <div class="card-columns">
       <% for(let i=0; i < data.length; i++) { %>
-        <div class="card">
+        <div class="card mt-3">
           <img class="card-img-top" alt="Card image cap"src="data:image/jpeg;base64,<%- data[i].image %>" width="100px"/>
           <div class="card-body">
             <h3 class="card-title"> <%= data[i].name %></h3>
@@ -29,6 +29,7 @@
               <div class="col-sm-8"><strong><%= rupiah(data[i].price) %></strong></div>
             </div>
           </div>
+          <a href="/user/bid/<%= data[i].id %>" style="text-decoration: none"><button type="button" class="btn btn-info btn-lg btn-block">Submit a Bid</button></a>
         </div>
       <% } %>
 
