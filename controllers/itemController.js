@@ -27,8 +27,6 @@ class itemController {
           items[i].image = new Buffer(items[i].image).toString('base64')
         }
 
-        // res.send(items)
-
         dataItems = items
         return Category.findAll()
       })
