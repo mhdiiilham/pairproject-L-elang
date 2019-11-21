@@ -8,11 +8,21 @@
   <title>L'Elang</title>
 </head>
 <body>
-    <%- include('../partials/adminNavbar', {page: 'item'}) %>
+    <%- include('../partials/adminNavbar', {page: 'item', sum: active}) %>
     <div class="container mt-4">
         <h1 class="display-4">Add Item</h1>
         <hr class="my-4">
       </div>
+
+      <% if(err.length !== 0) { %> 
+        <div class="container">
+          <div class="alert alert-danger" role="alert">
+            <% for(let i = 0; i < err.length; i++) { %> 
+              <%= err[i] %><br>
+            <% } %>
+          </div>
+        </div>
+      <% } %>
     
       <div class="container mt-4">
         <form class="text-center border border-light p-5" action="" method="POST" enctype="multipart/form-data">

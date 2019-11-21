@@ -2,4 +2,7 @@
   <h1 class="display-4">L'Elang <%= page === 'item' ? 'Item' : 'Category' %>  Data!</h1>
   <hr class="my-4">
   <a class="btn btn-secondary btn-lg" href="<%= page === 'item' ? '/item/add' : '/category/add' %>" role="button"><%= page === 'item' ? 'Add Item' : 'Add Category' %></a>
+  <% if(page == 'category') { %> 
+  <a class="btn btn-secondary btn-lg" href="/category/chart" role="button">Show Chart</a>
+  <% } %>
 </div>

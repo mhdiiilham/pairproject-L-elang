@@ -9,15 +9,15 @@
 </head>
 <body>
     
-  <%- include('../partials/adminNavbar', {page: 'item'}) %>
+  <%- include('../partials/adminNavbar', {page: 'item', sum: active}) %>
   <div class="jumbotron">
     <h1 class="display-4"><%= data.code %> : <%= data.name%></h1>
     <hr class="my-4">
     <form action="" method="POST">
       <input type="hidden" value="<%= data.name %>" name="item">
-      <input type="hidden" value="<%= user[0].email %>" name="email">
-      <input type="hidden" value="<%= rupiah(user[0].bid) %>" name="nominal">
-      <button type="submit"> Closed </button>
+      <input type="hidden" value="<%= user.length !== 0 ?  user[0].email : '' %>" name="email">
+      <input type="hidden" value="<%= user.length !== 0 ?  rupiah(user[0].bid) : '' %>" name="nominal">
+      <button type="submit" class="btn btn-secondary" >Closed</button>
     </form>
   </div>
   

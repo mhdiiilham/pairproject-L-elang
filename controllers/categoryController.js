@@ -1,13 +1,16 @@
 'use strict'
-const { Category } = require('../models')
+const { Category, User } = require('../models')
 
 class categoryController {
   static findAll(req, res){
-    Category
-      .findAll()
+    let sum
+    User.sumUser()
+      .then(data => {
+        sum = data
+        return Category.findAll()
+      })
       .then(categories => {
-        // res.send(categories)
-        res.render('category/showAll', { data: categories })
+        res.render('category/showAll', { data: categories, active: sum })
       })
       .catch(err => {
         res.send({ err })
@@ -16,7 +19,14 @@ class categoryController {
   }
 
   static getCategoryForm(req, res){
-    res.render('category/addCategory')
+    let err = []
+    User.sumUser()
+      .then(data => {
+        res.render('category/addCategory', { active: data, err })
+      })
+      .catch(err => {
+        res.send({err: err.message})
+      })
   }
 
   static createCategory(req, res){
@@ -27,8 +37,27 @@ class categoryController {
       .then(success => {
         res.redirect('/category')
       })
-      .catch(err => {
-        res.send({err})
+      .catch(error => {
+        let err = [error.message]
+        let sum
+        User.sumUser()
+          .then(data => {
+            sum = data
+            return Category.findAll()
+          })
+          .then(categories => {
+            res.render('category/addCategory', { data: categories, active: sum, err })
+          })
+          .catch(err => {
+            res.send({ err })
+          })
+      })
+  }
+
+  static chartSample(req, res){
+    User.sumUser()
+      .then(data => {
+        res.render('category/chart', { active: data })
       })
   }
 

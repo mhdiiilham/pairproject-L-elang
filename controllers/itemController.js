@@ -5,6 +5,7 @@ const Mailer = require('../helpers/nodemailer')
 class itemController {
   static findAll(req, res){
     let obj = req.query
+    let sum
     let dataItems
     let category
     let search = {}
@@ -18,10 +19,13 @@ class itemController {
         }
       }
     }
-    let where = {where: search}
+    let where = {where: search, order: [['id', 'DESC']]}
 
-    Item
-      .findAll(where)
+    User.sumUser()
+      .then(data => {
+        sum = data
+        return Item.findAll(where)
+      })
       .then(items => {
         for(let i = 0; i < items.length; i++){
           items[i].image = new Buffer(items[i].image).toString('base64')
@@ -31,11 +35,10 @@ class itemController {
         return Category.findAll()
       })
       .then(categories => {
-        res.render('items/showAll', { data: dataItems, category: categories })
+        res.render('items/showAll', { data: dataItems, category: categories, active: sum })
       })
       .catch(err => {
-        console.log(err.message)
-        res.send({ err })
+        res.send({ err : err.message })
       })
   }
 
@@ -44,10 +47,15 @@ class itemController {
   }
 
   static getItemForm(req, res){
-    Category
-      .findAll()
+    let err = []
+    let sum
+    User.sumUser()
+      .then(data => {
+        sum = data
+        return Category.findAll()
+      })
       .then(categories => {
-        res.render('items/addItem', {data: categories})
+        res.render('items/addItem', {data: categories, active: sum, err})
       })
       .catch(err => {
         res.send({err})
@@ -55,9 +63,21 @@ class itemController {
   }
 
   static createItem(req, res){
+    let err = []
+    let sum
     if(req.file == undefined){
-      const err = {err: "Validation error: File cannot empty"}
-      res.send(err)
+      err = ["Validation error: File cannot empty"]
+      User.sumUser()
+          .then(data => {
+            sum = data
+            return Category.findAll()
+          })
+          .then(categories => {
+            res.render('items/addItem', {data: categories, active: sum, err})
+          })
+          .catch(err => {
+            res.send({err})
+          })
     } else {
       Item.create({
         name: req.body.name,
@@ -69,22 +89,39 @@ class itemController {
       .then(success => {
         res.redirect('/item')
       })
-      .catch(err => {
-        res.send({err : err.message})
+      .catch(error => {
+        let message = error.message.split(',\n')
+        err = message
+        User.sumUser()
+          .then(data => {
+            sum = data
+            return Category.findAll()
+          })
+          .then(categories => {
+            res.render('items/addItem', {data: categories, active: sum, err})
+          })
+          .catch(err => {
+            res.send({err})
+          })
       }) 
     }
   }
 
   static editItem(req, res){
+    let sum
     let categoryData
-    Category.findAll()
+    User.sumUser()
+      .then(data => {
+        sum = data
+        return Category.findAll()
+      })
       .then(categories => {
         categoryData = categories
         return Item.findByPk(Number(req.params.id))
       })
       .then(item => {
         item.image = new Buffer(item.image).toString('base64')
-        res.render('items/editItem', { data: item, category: categoryData})
+        res.render('items/editItem', { data: item, category: categoryData, active: sum})
       })
       .catch(err => {
         res.send({ err: err.message })
@@ -114,14 +151,16 @@ class itemController {
   }
 
   static showItem(req, res) {
+    let sum
     let header
     let dataUser = []
 
-    Item.findByPk(Number(req.params.id), {
-      include: [UserItem],
-      order: [
-        [{ model: UserItem }, 'bid', 'desc']
-      ]})
+    User.sumUser()
+      .then(data => {
+        sum = data
+        return Item.findByPk(Number(req.params.id), {
+          include: [UserItem], order: [[{ model: UserItem }, 'bid', 'desc']]})
+      })
       .then(item => {
         header =  {
           code : item.code,
@@ -146,9 +185,11 @@ class itemController {
             }
           }
         }
-        // header.image = 'ini gambar'
-        // res.send(dataUser)
-        res.render('items/showBidden', {data: header, user : dataUser})
+        if(dataUser.length == 0){
+          res.render('items/showBidden', {data: header, user : [], active: sum})
+        } else {
+          res.render('items/showBidden', {data: header, user : dataUser, active: sum})
+        }
       })
       .catch(err => {
         res.send({ err: err.message })
@@ -160,7 +201,7 @@ class itemController {
     let item  = req.body.item
     let nominal = req.body.nominal
     Mailer(email, item, nominal)
-    Item.update({ status: 'closed' }, { where: { id: req.params.id } })
+    Item.update({ status: 'CLOSED' }, { where: { id: req.params.id } })
     .then(()=>{
       res.redirect('/item')
     })

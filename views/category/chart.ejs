@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <%- include('../partials/bootstrap') %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+    <%- include('../partials/adminNavbar', {page: 'item', sum: active }) %>
+    <div class="container mt-5">
+      <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+    </div>
+
+    <script>
+      new Chart(document.getElementById("bar-chart-horizontal"), {
+        type: 'horizontalBar',
+        data: {
+          labels: ["Category 1", "Category 2", "Category 3"],
+          datasets: [
+            {
+              label: "person",
+              backgroundColor: "#3e95cd",
+              data: [2478,5267,1934]
+            }
+          ]
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'HANYA CONTOH, KARENA KAMI BELUM BISA MEREALISASIKAN DATANYA'
+          }
+        }
+      });
+    </script>
+</body>
+</html>

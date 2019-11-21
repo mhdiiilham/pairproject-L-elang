@@ -6,6 +6,13 @@ module.exports = (sequelize, DataTypes) => {
     fullname() {
       return `${this.first_name} ${this.last_name}`
     }
+
+    static sumUser(){
+      return User.findAll({where: {isActive: ['TRUE', 'true']}})
+        .then(data => {
+          return data
+        })
+    }
   };
   User.init({
     first_name: {
