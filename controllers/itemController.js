@@ -160,8 +160,7 @@ class itemController {
     let item  = req.body.item
     let nominal = req.body.nominal
     Mailer(email, item, nominal)
-    // res.send(req.params.id)
-    // res.send(req.body)
+    
   }
 }
 
