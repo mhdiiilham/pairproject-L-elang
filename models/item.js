@@ -61,6 +61,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Item.belongsTo(models.Category)
     Item.belongsToMany(models.User, { through: models.UserItem })
+    Item.hasMany(models.UserItem)
   };
   return Item;
 };
