@@ -9,7 +9,7 @@ function sendEmail(email, salt){
        });
     
        const mailOptions = {
-        from: `slimyhebat@gmail.com`,
+        from: `lelangElang1@gmail.com`,
         to: `${email}`,
         subject: 'Please Confirm Your Email!',
         html: `

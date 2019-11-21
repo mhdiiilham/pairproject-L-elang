@@ -9,7 +9,7 @@ function sendEmail(email, item, nominal){
        });
     
        const mailOptions = {
-        from: `slimyhebat@gmail.com`,
+        from: `lelangElang1@gmail.com`,
         to: `${email}`,
         subject: 'Selamat Anda Menang!',
         html: `<h1>Selamat!</h1>
