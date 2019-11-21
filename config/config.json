@@ -5,12 +5,5 @@
     "database": "lelang",
     "host": "127.0.0.1",
     "dialect": "postgres"
-  },
-  "production": {
-    "username": "veqtjctdgfiwaf",
-    "password": "dee2e1fe33d554e774d2bda7b7b22593ecdc2fcb37f2762802a6acee43d505a8",
-    "database": "d87imunosmnoc",
-    "host": "ec2-107-21-113-60.compute-1.amazonaws.com",
-    "dialect": "postgres"
   }
 }
