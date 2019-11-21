@@ -82,15 +82,17 @@ class userController {
                 } else {
                     Category.findAll()
                     .then(categories=>{
-                        // res.send(categories)
                         res.render('./user/login', {err: "email / password salah", user: null, list: categories})
                     })
                 };
             })
             .catch(err=> {
                 Category.findAll()
-                .then(categories=>{
-                    res.render('./user/login', {err: "email / password salah", user: null, list: categories})
+                .then(categories=> {
+                    res.render('./user/register', { error: "akun anda belum terdaftar, silahkan mendaftar terlebih dahulu", user, list: categories })
+                })
+                .catch(err=> {
+                    res.send(err)
                 })
             });
     }
