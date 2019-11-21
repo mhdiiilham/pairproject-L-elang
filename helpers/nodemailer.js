@@ -11,9 +11,8 @@ function sendEmail(email, item, nominal){
        const mailOptions = {
         from: `slimyhebat@gmail.com`,
         to: `${email}`,
-        subject: 'Selamat!',
-        html: `
-        <h1>Selamat!</h1>
+        subject: 'Please Confirm Your Email!',
+        html: `<h1>Selamat!</h1>
         <h2>Anda dinyatakan memang dalam pelelangan ${item} dengan nominal: ${nominal}</h2>
         <h2>Tapi boong, karena kita tidak punya item tersebut. HAHAHA!</h2>
         <img src="https://photo-invivo.com/wp-content/uploads/2019/03/crying-laughing-meme-wonderfully-funny-laughing-and-crying-face-memes-mojly-of-crying-laughing-meme.jpg" width="400" height="400">
@@ -27,3 +26,5 @@ function sendEmail(email, item, nominal){
      });
 }
 module.exports = sendEmail;
+
+
