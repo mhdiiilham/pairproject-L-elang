@@ -1,5 +1,5 @@
 'use strict'
-const { User, Item, Category } = require('../models')
+const { User, Item, Category, UserItem } = require('../models')
 const bcrypt = require('../helpers/bcrypt')
 
 class userController {
@@ -46,6 +46,8 @@ class userController {
                     req.session.user = {
                         id: user.id,
                         name: user.fullname(),
+                        first_name: user.first_name,
+                        last_name: user.last_name,
                         email: user.email,
                         role: user.role
                     }
@@ -61,12 +63,16 @@ class userController {
                 else {
                     Category.findAll()
                     .then(categories=>{
-                        res.render('./user/login', {err: "email/password salah", user: null, list: categories})
+                        // res.send(categories)
+                        res.render('./user/login', {err: "email / password salah", user: null, list: categories})
                     })
                 };
             })
             .catch(err=> {
-                res.render('./user/login', {err, user: null})
+                Category.findAll()
+                .then(categories=>{
+                    res.render('./user/login', {err: "email / password salah", user: null, list: categories})
+                })
             });
     }
     static logout(req, res) {
@@ -93,7 +99,8 @@ class userController {
             })
         }
         else {
-            res.redirect('/item')
+            // res.send(req.session.user)
+            res.send('profileAdmin')
         }
     }
     static isAdmin(req, res) {
@@ -120,7 +127,7 @@ class userController {
             )
             .then(()=> {
                 // redirect ke halaman profile admin
-                res.send('udah jadi admin');
+                res.send('/item');
             })
             .catch(err=> {
                 res.send(err);
@@ -144,7 +151,27 @@ class userController {
         });
     };
     static bidPOST(req, res) {
+        let dataCategory = null
         Category.findAll()
+        .then(categories=> {
+            dataCategory = categories
+            return UserItem.create(req.body)
+        })
+        .then(()=>{
+            res.redirect('/user/profile')
+        })
+        .catch(err=>{
+            res.send(err)
+        })
+    }
+    static editUpdate(req, res) {
+        User.update(req.body, {where: { id: Number(req.body.id) }})
+            .then(()=>{
+                res.redirect('/user/profile');
+            })
+            .catch(err=>{
+                res.send(err)
+            })
     }
 }
 

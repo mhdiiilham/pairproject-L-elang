@@ -9,7 +9,18 @@ const upload = Multer({
 
 const { item } = require('../controllers')
 
-Router.get('/', item.findAll);
+Router.get('/', (req, res, next)=>{
+	let userSession = req.session.user
+	if(!userSession) {
+		res.redirect('/list')
+	} else {
+		if(userSession.role !== 'admin') {
+			res.redirect('/list')
+		} else {
+			next()
+		}
+	}
+}, item.findAll);
 Router.post('/', item.searchFindOne);
 Router.get('/add', item.getItemForm);
 Router.post('/add', upload.single('image'), item.createItem)

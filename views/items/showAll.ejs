@@ -57,7 +57,7 @@
             <td><img src="data:image/jpeg;base64,<%- data[i].image %>" width="100px"/></td>
             <!-- <td><%= data[i].image %></td> -->
             <td> <i class="material-icons"><a href="/item/edit/<%= data[i].id %>" style="text-decoration: none"> edit </a></i> 
-              <i class="material-icons"><a href="/item/delete/<%= data[i].id %>" style="text-decoration: none">delete</a></i></td>
+              <i class="material-icons"><a href="/item/delete/<%= data[i].id %>" onclick="return confirm('Are you sure want to delete this item?')" style="text-decoration: none">delete</a></i></td>
           </tr>
         <% } %>
       </tbody>

@@ -31,7 +31,6 @@ Router.get('/isAdmin', (req, res, next)=>{
 }, user.isAdmin);
 
 Router.post('/Admin', user.isAdminTrue);
-
 Router.get('/bid/:id', (req, res, next) => {
     let session = req.session.user
     if(!session){
@@ -41,5 +40,6 @@ Router.get('/bid/:id', (req, res, next) => {
     }
 }, user.bidPage);
 Router.post('/bid/:id', user.bidPOST);
-
+Router.post('/edit/:id', user.editUpdate);
+Router.get('/edit/:id', user.editUpdate);
 module.exports = Router
