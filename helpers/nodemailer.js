@@ -3,14 +3,14 @@ function sendEmail(email, item, nominal){
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: `slimyhebat@gmail.com`,
-               pass: `NabilaR6`
+               user: `lelang.noreply@gmail.com`,
+               pass: `lelangElang1`
            }
        });
        
        
        const mailOptions = {
-        from: `slimyhebat@gmail.com`,
+        from: `lelang.noreply@gmail.com`,
         to: `${email}`,
         subject: 'Selamat Anda Menang!',
         html: `<h1>Selamat!</h1>

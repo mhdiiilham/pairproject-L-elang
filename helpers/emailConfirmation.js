@@ -3,13 +3,14 @@ function sendEmail(email, salt){
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-               user: `slimyhebat@gmail.com`,
-               pass: `NabilaR6`
+               user: `lelang.noreply@gmail.com`,
+               pass: `lelangElang1`
            }
        });
-    
+       
+       
        const mailOptions = {
-        from: `slimyhebat@gmail.com`,
+        from: `lelang.noreply@gmail.com`,
         to: `${email}`,
         subject: 'Please Confirm Your Email!',
         html: `
@@ -27,3 +28,8 @@ function sendEmail(email, salt){
      });
 }
 module.exports = sendEmail;
+
+
+
+
+
