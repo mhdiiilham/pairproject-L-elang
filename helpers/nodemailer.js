@@ -11,7 +11,7 @@ function sendEmail(email, item, nominal){
        const mailOptions = {
         from: `slimyhebat@gmail.com`,
         to: `${email}`,
-        subject: 'Please Confirm Your Email!',
+        subject: 'Selamat Anda Menang!',
         html: `<h1>Selamat!</h1>
         <h2>Anda dinyatakan memang dalam pelelangan ${item} dengan nominal: ${nominal}</h2>
         <h2>Tapi boong, karena kita tidak punya item tersebut. HAHAHA!</h2>
