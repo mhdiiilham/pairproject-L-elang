@@ -118,7 +118,6 @@ class userController {
             })
         }
         else {
-            // res.send(req.session.user)
             res.send('profileAdmin')
         }
     }
