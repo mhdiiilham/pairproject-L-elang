@@ -7,9 +7,10 @@ function sendEmail(email, item, nominal){
                pass: `NabilaR6`
            }
        });
-    
+       
+       
        const mailOptions = {
-        from: `lelangElang1@gmail.com`,
+        from: `slimyhebat@gmail.com`,
         to: `${email}`,
         subject: 'Selamat Anda Menang!',
         html: `<h1>Selamat!</h1>
