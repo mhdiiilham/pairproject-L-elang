@@ -7,9 +7,9 @@ const isAdmin = require('../middleware/isAdmin')
 const isUser = require('../middleware/isUser')
 
 
-Router.get('/', category.findAll)
-Router.get('/chart', category.chartSample)
-Router.get('/add', category.getCategoryForm)
-Router.post('/add', category.createCategory)
+Router.get('/', isUser, isAdmin, category.findAll)
+Router.get('/chart', isUser, isAdmin, category.chartSample)
+Router.get('/add', isUser, isAdmin, category.getCategoryForm)
+Router.post('/add', isUser, isAdmin, category.createCategory)
 
 module.exports = Router

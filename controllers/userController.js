@@ -120,7 +120,7 @@ class userController {
             })
         }
         else {
-            res.send('profileAdmin')
+            res.redirect('/item')
         }
     }
     static isAdmin(req, res) {
