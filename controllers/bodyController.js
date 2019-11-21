@@ -4,7 +4,7 @@ const { Category, Item } = require('../models')
 class bodyController {
   static list(req, res){
     Item
-      .findAll({include: [ Category ]})
+      .findAll({where: { status: 'open' },include: [ Category ]})
       .then(data => {
         for(let i = 0; i < data.length; i++){
           data[i].image = new Buffer(data[i].image).toString('base64')

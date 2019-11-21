@@ -160,7 +160,13 @@ class itemController {
     let item  = req.body.item
     let nominal = req.body.nominal
     Mailer(email, item, nominal)
-    res.send('terkirim harusnya')
+    Item.update({ status: 'closed' }, { where: { id: req.params.id } })
+    .then(()=>{
+      res.redirect('/item')
+    })
+    .catch(err=>{
+      res.send(err)
+    })
   }
 }
 
