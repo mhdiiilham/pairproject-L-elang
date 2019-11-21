@@ -13,36 +13,12 @@
   <%- include('../partials/adminHeader', {page: 'item'}) %>
   
   <div class="container">
-    <form class="" action="" method="POST">
-      <div class="form-row align-items-center">
-        <div class="col-auto my-1">
-          <select class="custom-select custom-select-sm " name="status">
-            <option selected value="0">Status</option>
-                <option value="open">Open</option>
-                <option value="closed">Closed</option>
-            </option>
-          </select>
-        </div>
-        <div class="col-auto my-1">
-          <select class="custom-select custom-select-sm " name="name">
-            <option selected value="0">Category</option>
-              <% for(let i=0; i < category.length; i++) { %> 
-                <option value="<%= category[i].id + ' ' + category[i].name %>"><%= category[i].name%></option>
-              <% } %>
-            </option>
-          </select>
-        </div>
-        <div class="col-auto my-1">
-          <button type="submit" class="btn btn-secondary btn-sm">Search</button>
-        </div>
-      </div>
-    </form>
-
+  
   <div class="container mt-2">
     <table class="table table-striped">
       <%- include('../partials/adminTableHead', {head: ['#', 'Name', 'Category', 'Price', 'Status', 'Image', 'Action']}) %>
       <tbody>
-        <% for(let i=0; i < data.length; i++ ) { %> 
+        <!-- <% for(let i=0; i < data.length; i++ ) { %> 
           <tr>
             <th scope="row"><%= i+1 %></th>
             <td><%= data[i].name %></td>
@@ -55,11 +31,10 @@
             <td><%= rupiah(data[i].price) %></td>
             <td><%= data[i].status %></td>
             <td><img src="data:image/jpeg;base64,<%- data[i].image %>" width="100px"/></td>
-            <!-- <td><%= data[i].image %></td> -->
             <td> <i class="material-icons"><a href="/item/edit/<%= data[i].id %>" style="text-decoration: none"> edit </a></i> 
-              <i class="material-icons"><a href="/item/show/<%= data[i].id %>" style="text-decoration: none">assignment</a></i></td>
+              <i class="material-icons"><a href="/item/delete/<%= data[i].id %>" style="text-decoration: none">assignment</a></i></td>
           </tr>
-        <% } %>
+        <% } %> -->
       </tbody>
     </table>
   </div>
