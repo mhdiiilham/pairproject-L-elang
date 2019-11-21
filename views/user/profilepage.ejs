@@ -19,9 +19,6 @@
                     </button></div>
                 </h5>
                 <ul class="list-group">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
                     <li class="list-group-item">
                         <div class="d-flex justify-content-center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#editprofile">
                             Edit Profile
@@ -50,12 +47,11 @@
                         <div class="container">
                             <div class="row">
                                     <%for(let i = 0; i < data.Items.length; i++){%>
-                                        <div class="media">
-                                            <img src="data:image/jpeg;base64, <%-data.Items[i].image%>" class="mr-3" alt="...">
-                                            <div class="media-body">
-                                              <h5 class="mt-0"><h4><%=data.Items[i].name%></h5>
-                                                Price: <%=rupiah(data.Items[i].price)%> <br>
-                                                Bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                              <h5 class="card-title"><%=data.Items[i].name%></h5>
+                                              <h6 class="card-subtitle mb-2 text-muted">Price: <%=rupiah(data.Items[i].price)%></h6>
+                                              <p class="card-text">Bid: <%=rupiah  (data.Items[i].UserItem.bid)%></p>
                                             </div>
                                           </div>
                                     <%}%>
@@ -108,4 +104,3 @@
     </div>
 </body>
 </html>
-<a href=""></a>
