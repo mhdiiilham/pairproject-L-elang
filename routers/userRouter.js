@@ -29,6 +29,7 @@ Router.get('/isAdmin', (req, res, next)=>{
         next()
     }
 }, user.isAdmin);
+
 Router.post('/Admin', user.isAdminTrue);
 
 Router.get('/bid/:id', (req, res, next) => {

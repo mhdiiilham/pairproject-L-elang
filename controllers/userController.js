@@ -55,7 +55,7 @@ class userController {
                         res.redirect('/user/profile')
                     }
                     else {
-                        res.send('tampilan Admin')
+                        res.redirect('/item')
                     }
                 }
                 else {
@@ -93,7 +93,7 @@ class userController {
             })
         }
         else {
-            res.send('profileAdmin')
+            res.redirect('/item')
         }
     }
     static isAdmin(req, res) {
