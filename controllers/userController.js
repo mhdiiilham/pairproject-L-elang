@@ -12,7 +12,7 @@ class userController {
         })
     }
     static create(req, res) {
-        let salt = `${Math.random()*6}`
+        let salt = `${Math.floor(Math.random()*6)+10000}`
         let data = {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -24,7 +24,7 @@ class userController {
         User.create(data)
             .then((user)=> {
                 emailConfirm(req.body.email, salt)
-                res.redirect('/')
+                res.redirect('/user/confirm')
             })
             .catch(err=> {
                 Category.findAll()
