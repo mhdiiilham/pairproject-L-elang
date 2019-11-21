@@ -6,25 +6,16 @@ const Multer = require('multer')
 const upload = Multer({
 	storage: Multer.MemoryStorage
 });
+const isAdmin = require('../middleware/isAdmin')
+const isUser = require('../middleware/isUser')
 
 const { item } = require('../controllers')
 
-Router.get('/', (req, res, next)=>{
-	let userSession = req.session.user
-	if(!userSession) {
-		res.redirect('/list')
-	} else {
-		if(userSession.role !== 'admin') {
-			res.redirect('/list')
-		} else {
-			next()
-		}
-	}
-}, item.findAll);
+Router.get('/', isUser, isAdmin, item.findAll);
 Router.post('/', item.searchFindOne);
-Router.get('/add', item.getItemForm);
+Router.get('/add', isUser, isAdmin, item.getItemForm);
 Router.post('/add', upload.single('image'), item.createItem)
-Router.get('/edit/:id', item.editItem)
-Router.post('/edit/:id', item.updateItem)
+Router.get('/edit/:id', isUser, isAdmin, item.editItem)
+Router.post('/edit/:id', isUser, isAdmin, item.updateItem)
 
 module.exports = Router
