@@ -17,5 +17,7 @@ Router.get('/add', isUser, isAdmin, item.getItemForm);
 Router.post('/add', upload.single('image'), item.createItem)
 Router.get('/edit/:id', isUser, isAdmin, item.editItem)
 Router.post('/edit/:id', isUser, isAdmin, item.updateItem)
+Router.get('/show/:id', item.showItem)
+Router.post('/show/:id', item.closedItem)
 
 module.exports = Router

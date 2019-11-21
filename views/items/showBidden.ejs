@@ -10,31 +10,31 @@
 <body>
     
   <%- include('../partials/adminNavbar', {page: 'item'}) %>
-  <%- include('../partials/adminHeader', {page: 'item'}) %>
+  <div class="jumbotron">
+    <h1 class="display-4"><%= data.code %> : <%= data.name%></h1>
+    <hr class="my-4">
+    <form action="" method="POST">
+      <input type="hidden" value="<%= data.name %>" name="item">
+      <input type="hidden" value="<%= user[0].email %>" name="email">
+      <input type="hidden" value="<%= rupiah(user[0].bid) %>" name="nominal">
+      <button type="submit"> Closed </button>
+    </form>
+  </div>
   
   <div class="container">
   
   <div class="container mt-2">
     <table class="table table-striped">
-      <%- include('../partials/adminTableHead', {head: ['#', 'Name', 'Category', 'Price', 'Status', 'Image', 'Action']}) %>
+      <%- include('../partials/adminTableHead', {head: ['#', 'Name', 'Email', 'Offer']}) %>
       <tbody>
-        <!-- <% for(let i=0; i < data.length; i++ ) { %> 
+        <% for(let i=0; i < user.length; i++ ) { %> 
           <tr>
-            <th scope="row"><%= i+1 %></th>
-            <td><%= data[i].name %></td>
-            <% for(let j = 0; j < category.length; j++) { %>
-              <% if(category[j].id == data[i].CategoryId) { %>
-                <td> <%=  category[j].code + ' : ' +category[j].name %> </td>
-              <% } %>
-            <% } %>
-
-            <td><%= rupiah(data[i].price) %></td>
-            <td><%= data[i].status %></td>
-            <td><img src="data:image/jpeg;base64,<%- data[i].image %>" width="100px"/></td>
-            <td> <i class="material-icons"><a href="/item/edit/<%= data[i].id %>" style="text-decoration: none"> edit </a></i> 
-              <i class="material-icons"><a href="/item/delete/<%= data[i].id %>" style="text-decoration: none">assignment</a></i></td>
+            <th scope="row"><%= i +1 %></th>
+            <td><%= user[i].fullname %></td>
+            <td><%= user[i].email %></td>
+            <td><%= rupiah(user[i].bid) %></td>
           </tr>
-        <% } %> -->
+        <% } %>
       </tbody>
     </table>
   </div>

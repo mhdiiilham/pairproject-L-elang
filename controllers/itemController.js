@@ -1,5 +1,6 @@
 'use strict'
-const { Item, Category, User } = require('../models')
+const { Item, Category, User, UserItem } = require('../models')
+const Mailer = require('../helpers/nodemailer')
 
 class itemController {
   static findAll(req, res){
@@ -110,7 +111,57 @@ class itemController {
       .then(success => {
         res.redirect('/item')
       })
+  }
 
+  static showItem(req, res) {
+    let header
+    let dataUser = []
+
+    Item.findByPk(Number(req.params.id), {
+      include: [UserItem],
+      order: [
+        [{ model: UserItem }, 'bid', 'desc']
+      ]})
+      .then(item => {
+        header =  {
+          code : item.code,
+          name : item.name
+        }
+
+        for(let i = 0; i < item.UserItems.length; i++){
+          let data = {}
+          data['UserId'] = item.UserItems[i].UserId
+          data['bid'] = item.UserItems[i].bid
+          dataUser.push(data)
+        }
+        return User.findAll()
+      })
+      .then(users => {
+
+        for(let i = 0; i < dataUser.length; i++){
+          for (let j = 0; j < users.length; j++){
+            if(dataUser[i].UserId == users[j].id){
+              dataUser[i]['fullname'] = users[j].fullname()
+              dataUser[i]['email'] = users[j].email
+            }
+          }
+        }
+        // header.image = 'ini gambar'
+        // res.send(dataUser)
+        res.render('items/showBidden', {data: header, user : dataUser})
+      })
+      .catch(err => {
+        res.send({ err: err.message })
+      })
+  }
+
+  static closedItem(req, res){
+    let email = req.body.email
+    let item  = req.body.item
+    let nominal = req.body.nominal
+    Mailer(email, item, nominal)
+    // res.send(req.params.id)
+    // res.send(req.body)
   }
 }
 
