@@ -17,7 +17,6 @@ class itemController {
         }
       }
     }
-
     let where = {where: search}
 
     Item
@@ -73,6 +72,45 @@ class itemController {
         res.send({err : err.message})
       }) 
     }
+  }
+
+  static editItem(req, res){
+    let categoryData
+    Category.findAll()
+      .then(categories => {
+        categoryData = categories
+        return Item.findByPk(Number(req.params.id))
+      })
+      .then(item => {
+        item.image = new Buffer(item.image).toString('base64')
+        res.render('items/editItem', { data: item, category: categoryData})
+      })
+      .catch(err => {
+        res.send({ err: err.message })
+      })
+  }
+
+  static updateItem(req, res){
+    let data = {}
+    console.log(req.body)
+
+    Item.findByPk(Number(req.params.id))
+      .then(item => {
+        data['CategoryId'] = item.CategoryId
+        data['price'] = item.price
+        if(req.body.CategoryId !== '0'){
+          data.CategoryId = Number(req.body.CategoryId)
+        }
+        if(req.body.price !== ''){
+          data.price = Number(req.body.price)
+        }
+
+        return Item.update(data, {where: {id: Number(req.params.id)}})
+      })
+      .then(success => {
+        res.redirect('/item')
+      })
+
   }
 }
 
