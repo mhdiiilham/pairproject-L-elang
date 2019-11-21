@@ -41,4 +41,7 @@ Router.get('/bid/:id', (req, res, next) => {
 Router.post('/bid/:id', user.bidPOST);
 Router.post('/edit/:id', user.editUpdate);
 Router.get('/edit/:id', user.editUpdate);
+
+Router.post('/confirm' ,user.isActive);
+Router.get('/confirm' ,user.isActivePage);
 module.exports = Router

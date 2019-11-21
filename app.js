@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const port = process.env.PORT || 3000;
 const Rupiah = require('./helpers/convertRupiah')
 const session = require('express-session');
 const { user } = require('./controllers')
@@ -43,4 +43,4 @@ app.use('/list', Body)  //route List
 app.locals.rupiah = Rupiah
 
 
-app.listen(PORT, () => { console.log(`Listening on port ${PORT}!`)});
+app.listen(port, () => { console.log(`Listening on port ${port}!`)});

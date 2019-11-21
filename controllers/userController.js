@@ -1,6 +1,7 @@
 'use strict'
 const { User, Item, Category, UserItem } = require('../models')
 const bcrypt = require('../helpers/bcrypt')
+const emailConfirm = require('../helpers/emailConfirmation')
 
 class userController {
     static register(req, res) {
@@ -11,9 +12,18 @@ class userController {
         })
     }
     static create(req, res) {
+        let salt = `${Math.random()*6}`
+        let data = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            password: req.body.password,
+            salt: salt
+        }
         let user = req.session.user
-        User.create(req.body)
+        User.create(data)
             .then((user)=> {
+                emailConfirm(req.body.email, salt)
                 res.redirect('/')
             })
             .catch(err=> {
@@ -42,14 +52,15 @@ class userController {
     static loginAttempt(req, res) {
         User.findOne({where: {email: req.body.email}})
             .then(user=> {
-                if(bcrypt.compare(req.body.password, user.password)) {
+                if(bcrypt.compare(req.body.password, user.password) && user.isActive) {
                     req.session.user = {
                         id: user.id,
                         name: user.fullname(),
                         first_name: user.first_name,
                         last_name: user.last_name,
                         email: user.email,
-                        role: user.role
+                        role: user.role,
+                        isActive: user.isActive
                     }
                     let hour = 3600000;
                     req.session.cookie.expires = new Date(Date.now() + hour);
@@ -60,7 +71,15 @@ class userController {
                         res.redirect('/item')
                     }
                 }
-                else {
+                else if (bcrypt.compare(req.body.password, user.password) && !user.isActive) {
+                    Category.findAll()
+                    .then(categories=> {
+                        res.render('./user/confirm', {error: "Harap input code konfirmasi", page: 'secret', user: req.session.user, list: categories})
+                     })
+                    .catch(eer=>{
+                        res.send(err)
+                    })
+                } else {
                     Category.findAll()
                     .then(categories=>{
                         // res.send(categories)
@@ -127,7 +146,7 @@ class userController {
             )
             .then(()=> {
                 // redirect ke halaman profile admin
-                res.send('/item');
+                res.redirect('/user/profile');
             })
             .catch(err=> {
                 res.send(err);
@@ -172,6 +191,42 @@ class userController {
             .catch(err=>{
                 res.send(err)
             })
+    }
+    static isActivePage(req, res) {
+        let userSession = req.session.user
+        Category.findAll()
+            .then(categories=> {
+                res.render('./user/confirm', {error: null, page: 'secret', user: req.session.user, list: categories})
+            })
+            .catch(eer=>{
+                res.send(err)
+            })
+    }
+    static isActive(req, res) {
+        User.findOne({ where: { email: req.body.email } })
+        .then(user=>{
+            if(req.body.code.toString() === user.salt){
+                User.update({isActive: true}, { where: { id: user.id } })
+                .then(()=>{
+                    res.redirect('/user/profile');
+                })
+                .catch(err=>{
+                    res.send(err)
+                })
+            }
+            else {
+                Category.findAll()
+                .then(categories=> {
+                    res.render('./user/confirm', {error: "Maaf Code Anda Salah", page: 'secret', user: req.session.user, list: categories})
+                 })
+                .catch(eer=>{
+                    res.send(err)
+                })
+            }
+        })
+        .catch(err=>{
+            res.send(err)
+        })
     }
 }
 

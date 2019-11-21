@@ -50,18 +50,14 @@
                         <div class="container">
                             <div class="row">
                                     <%for(let i = 0; i < data.Items.length; i++){%>
-                                    <div class="col-sm">
-                                        <div class="card mt-3 mb-2" style="width: 15rem;">
-                                            <img src="data:image/jpeg;base64, <%-data.Items[i].image%>" class="card-img-top" alt="...">
-                                            <div class="card-body">
-                                                <a href="/user/bid/<%=data.Items[i].id%>"><h4><%=data.Items[i].name%></h4></a>
-                                                <p class="card-text">
-                                                    Price: <%=rupiah(data.Items[i].price)%> <br>
-                                                    Bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
-                                                </p>
+                                        <div class="media">
+                                            <img src="data:image/jpeg;base64, <%-data.Items[i].image%>" class="mr-3" alt="...">
+                                            <div class="media-body">
+                                              <h5 class="mt-0"><h4><%=data.Items[i].name%></h5>
+                                                Price: <%=rupiah(data.Items[i].price)%> <br>
+                                                Bid: <%=rupiah  (data.Items[i].UserItem.bid)%>
                                             </div>
-                                        </div>
-                                    </div>
+                                          </div>
                                     <%}%>
                                 </div>
                             </div>
@@ -112,3 +108,4 @@
     </div>
 </body>
 </html>
+<a href=""></a>

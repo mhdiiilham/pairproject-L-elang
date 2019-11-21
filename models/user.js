@@ -55,7 +55,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    role: DataTypes.STRING
+    role: DataTypes.STRING,
+    salt: DataTypes.STRING,
+    isActive: DataTypes.BOOLEAN
   }, { hooks: {
     beforeCreate: function(user, options) {
       user.setDataValue('password', bcrypt.encrypt(user.password))
