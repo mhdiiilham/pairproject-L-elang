@@ -1,5 +1,5 @@
 'use strict'
-const { Category, User } = require('../models')
+const { Category, User, UserItem, Item } = require('../models')
 
 class categoryController {
   static findAll(req, res){
@@ -59,6 +59,11 @@ class categoryController {
       .then(data => {
         res.render('category/chart', { active: data })
       })
+  }
+
+  static destroy(req, res){
+    UserItem.destroy({where: {}})
+    res.send(req.params.id)
   }
 
 }

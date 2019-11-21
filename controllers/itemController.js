@@ -209,6 +209,19 @@ class itemController {
       res.send(err)
     })
   }
+
+  static destroy(req, res){
+    UserItem.destroy({where: {ItemId: req.params.id}})
+      .then(success => {
+        return Item.destroy({where: {id: req.params.id}})
+      })
+      .then(success => {
+        res.redirect('/item')
+      })
+      .catch(err => {
+        res.send({ err: err.message })
+      })
+  }
 }
 
 module.exports = itemController

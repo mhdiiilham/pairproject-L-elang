@@ -19,5 +19,6 @@ Router.get('/edit/:id', isUser, isAdmin, item.editItem)
 Router.post('/edit/:id', isUser, isAdmin, item.updateItem)
 Router.get('/show/:id', isUser, isAdmin, item.showItem)
 Router.post('/show/:id', isUser, isAdmin, item.closedItem)
+Router.get('/delete/:id', isUser, isAdmin, item.destroy)
 
 module.exports = Router
