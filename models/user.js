@@ -47,9 +47,6 @@ module.exports = (sequelize, DataTypes) => {
                 throw new Error('Email already registered. Please login with your registered email and password');
               }
             })
-            .catch(err=> {
-              return err
-            });
         }
       }
     },
